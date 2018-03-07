@@ -1,0 +1,5 @@
+---
+- name: Check image_builds variable is defined
+  fail:
+    msg: "Variable image_builds needs to be defined"
+  when: image_builds is undefined
