@@ -1,2 +1,12 @@
 ---
 output_directory: ./output
+hostname: test
+domain_name: ansible.test
+admin_user: admin
+admin_password: omgsosecureadmin
+regular_user: ansible
+regular_password: omgsosecureregular
+
+checksum_to_platform:
+  eedebad7b16b00a99dc01256cabf41ae: iosv
+  8f14b50083a14688dec2fc791706bb3e: iosvl2

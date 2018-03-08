@@ -1,0 +1,15 @@
+---
+- name: Templatize IOSv config file
+  template:
+    src: iosv/ios_config.j2
+    dest: "{{ output_directory }}/ios_config.txt"
+
+- name: Run guestfish commands on image
+  shell: "guestfish add image.qcow2 : run : mount /dev/sda1 / : copy-in ios_config.txt /"
+  args:   
+    chdir: "{{ output_directory }}"
+
+- name: Clean up output directory
+  file:
+    path: "{{ output_directory }}/ios_config.txt"
+    state: absent

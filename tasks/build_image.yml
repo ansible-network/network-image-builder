@@ -1,0 +1,31 @@
+---
+- name: Create output directory
+  file:
+    path: "{{ output_directory }}"
+    state: directory
+
+- name: Clone source image onto output directory
+  copy:
+    src: "{{ item.src_image_path }}"
+    dest: "{{ output_directory }}/image.qcow2"
+
+- name: Retrieve stats of image
+  stat:
+    path: "{{ output_directory }}/image.qcow2"
+  register: st
+
+- name: Get MD5 checksum of the image
+  set_fact:
+    md5sum: "{{ st.stat.md5 }}"
+
+- name: Infer platform from MD5 checksum
+  set_fact:
+    platform: "{{ checksum_to_platform[md5sum] }}"
+
+- name: Include inferred platform build image tasks
+  include_tasks: "{{ platform }}/build_image.yml"
+
+- name: Rename built image to image_name
+  shell: "mv image.qcow2 {{ item.image_name }}.qcow2"
+  args:
+    chdir: "{{ output_directory }}"

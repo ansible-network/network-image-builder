@@ -1,8 +1,8 @@
 ---
 - import_tasks: check_prereqs.yml
 
-- include_tasks: process_image_build.yml
-  with_items: "{{ image_builds }}"
+- include_tasks: build_image.yml
+  with_items: "{{ build_params }}"
 
 - import_tasks: build_wrapper_image.yml
   when: wrapper_linux_image is defined

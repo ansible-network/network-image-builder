@@ -1,0 +1,20 @@
+hostname {{ hostname }}
+ip domain-name {{ domain_name }}
+
+username {{ admin_user }} privilege 15 secret {{ admin_password }}
+username {{ regular_user }} privilege 1 secret {{ regular_password }}
+
+crypto key generate rsa modulus 2048
+ip ssh version 2
+line vty 0 4
+ transport input ssh
+ login local
+
+interface GigabitEthernet0/0
+ no switchport
+ ip address dhcp
+ duplex auto
+ speed auto
+ no shutdown
+
+end
