@@ -1,0 +1,12 @@
+hostname {{ hostname }}
+ip domain-name {{ domain_name }}
+
+username {{ admin_user }} privilege 15 secret {{ admin_password }}
+username {{ regular_user }} privilete 1 secret {{ regular_password }}
+
+enable secret {{ enable_password }}
+
+event-handler dhcp-ma1-on-boot
+   trigger on-boot
+   action bash /mnt/flash/dhcp-ma1-on-boot.sh
+   delay 30

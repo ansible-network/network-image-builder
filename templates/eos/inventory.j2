@@ -1,0 +1,12 @@
+[eos]
+{{ hostname }}.{{domain_name }}
+
+[eos:vars]
+ansible_network_os=eos
+ansible_connection=network_cli
+ansible_host=localhost
+ansible_port=8022
+ansible_user={{ admin_user }}
+ansible_ssh_pass={{ admin_password }}
+ansible_become_method=enable
+ansible_become_password={{ enable_password }}

@@ -7,11 +7,11 @@
 - name: Clone source image onto output directory
   copy:
     src: "{{ item.src_image_path }}"
-    dest: "{{ output_directory }}/image.qcow2"
+    dest: "{{ output_directory }}/cloned_image"
 
 - name: Retrieve stats of image
   stat:
-    path: "{{ output_directory }}/image.qcow2"
+    path: "{{ output_directory }}/cloned_image"
   register: st
 
 - name: Get MD5 checksum of the image
@@ -26,6 +26,17 @@
   include_tasks: "{{ platform }}/build_image.yml"
 
 - name: Rename built image to image_name
-  shell: "mv image.qcow2 {{ item.image_name }}.qcow2"
+  shell: "mv cloned_image {{ item.image_name }}.qcow2"
   args:
     chdir: "{{ output_directory }}"
+
+- name: Create QEMU script
+  template:
+    src: "{{ platform }}/qemu.j2"
+    dest: "{{ output_directory }}/run_{{ item.image_name }}.sh"
+    mode: 0775
+
+- name: Create Ansible inventory
+  template:
+    src: "{{ platform }}/inventory.j2"
+    dest: "{{ output_directory }}/inventory_{{ item.image_name }}"
