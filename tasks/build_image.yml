@@ -1,12 +1,25 @@
 ---
+- name: Check build_params variable is defined
+  fail:
+    msg: "Variable build_params needs to be defined"
+  when: build_params is undefined
+
+- name: Get image name
+  set_fact:
+    image_name: "{{ item.image_name }}"
+
+- name: Get source image path
+  set_fact:
+    src_image_path: "{{ item.src_image_path }}"
+
 - name: Create output directory
   file:
     path: "{{ output_directory }}"
     state: directory
 
-- name: Clone source image onto output directory
+- name: Copy source image onto output directory
   copy:
-    src: "{{ item.src_image_path }}"
+    src: "{{ src_image_path }}"
     dest: "{{ output_directory }}/cloned_image"
 
 - name: Retrieve stats of image
@@ -14,29 +27,59 @@
     path: "{{ output_directory }}/cloned_image"
   register: st
 
-- name: Get MD5 checksum of the image
+- name: Get sha1sum checksum of the image
   set_fact:
-    md5sum: "{{ st.stat.md5 }}"
+    sha1sum: "{{ st.stat.checksum }}"
 
-- name: Infer platform from MD5 checksum
+- name: Infer platform from sha1sum checksum
   set_fact:
-    platform: "{{ checksum_to_platform[md5sum] }}"
+    platform: "{{ checksum_to_platform_version[sha1sum]['platform'] }}"
 
-- name: Include inferred platform build image tasks
-  include_tasks: "{{ platform }}/build_image.yml"
+- name: Infer build version from sha1sum checksum
+  set_fact:
+    build_version: "{{ checksum_to_platform_version[sha1sum]['build_version'] }}"
+
+- name: Include platform variables
+  include_vars:
+   dir: "{{ platform }}/{{ build_version }}"
+
+- name: Launch VM with QEMU
+  shell: "{{ qemu_command }} &"
+  args:
+    chdir: "{{ output_directory }}"
+ 
+- name: Bootstrap VM
+  expect:
+    command: telnet localhost 8888
+    responses: "{{ expect_responses }}"
+    timeout: 300
+
+- name: Wait for VM SSH
+  wait_for:
+    port: 8022
+    search_regex: SSH
+
+- name: Include platform config tasks
+  include: "{{ platform }}/configure.yml"
+
+- name: Kill QEMU
+  shell: killall qemu-system-x86_64
 
 - name: Rename built image to image_name
-  shell: "mv cloned_image {{ item.image_name }}.qcow2"
+  shell: "mv cloned_image {{ image_name }}.qcow2"
   args:
     chdir: "{{ output_directory }}"
 
 - name: Create QEMU script
   template:
-    src: "{{ platform }}/qemu.j2"
-    dest: "{{ output_directory }}/run_{{ item.image_name }}.sh"
+    src: "{{ platform }}/{{ build_version }}/qemu.j2"
+    dest: "{{ output_directory }}/run_{{ image_name }}.sh"
     mode: 0775
 
 - name: Create Ansible inventory
   template:
-    src: "{{ platform }}/inventory.j2"
-    dest: "{{ output_directory }}/inventory_{{ item.image_name }}"
+    src: "{{ platform }}/{{ build_version }}/inventory.j2"
+    dest: "{{ output_directory }}/inventory_{{ image_name }}"
+
+- import_tasks: build_wrapper_image.yml
+  when: wrapper_linux_image is defined and wrapper_linux_image

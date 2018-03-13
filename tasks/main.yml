@@ -1,7 +1,11 @@
 ---
-- import_tasks: check_prereqs.yml
+- name: Check build_params variable is defined
+  fail:
+    msg: "Variable build_params needs to be defined"
+  when: build_params is undefined
 
-- include_tasks: build_image.yml
+- name: Process build
+  include_tasks: build_image.yml
   with_items: "{{ build_params }}"
 
 - import_tasks: build_wrapper_image.yml

@@ -1,0 +1,11 @@
+no username admin
+hostname {{ hostname }}
+ip domain-name {{ domain_name }}
+
+interface mgmt0
+  ip address dhcp
+
+username {{ admin_user }} password {{ admin_user_password }} role network-admin
+username {{ regular_user }} password {{ regular_user_password }}
+
+boot nxos bootflash:nxos.7.0.3.I7.3.bin

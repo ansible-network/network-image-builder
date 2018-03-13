@@ -1,14 +1,7 @@
 ---
 output_directory: ./output
-hostname: test
-domain_name: ansible.test
-admin_user: admin
-admin_password: omgsosecureadmin
-regular_user: ansible
-regular_password: omgsosecureregular
-enable_password: omgsosecureenable
 
-checksum_to_platform:
-  eedebad7b16b00a99dc01256cabf41ae: iosv
-  8f14b50083a14688dec2fc791706bb3e: iosvl2
-  658102de43140123f8f8be5e1e6e8c06: eos
+checksum_to_platform_version:
+  1ee07ed01e672f5bf7efb46ce2e0f9f3a7658a94:
+    platform: nxos
+    build_version: 7.0.3.I7.3

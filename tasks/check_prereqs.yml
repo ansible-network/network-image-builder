@@ -1,5 +1,0 @@
----
-- name: Check build_params variable is defined
-  fail:
-    msg: "Variable build_params needs to be defined"
-  when: build_params is undefined
