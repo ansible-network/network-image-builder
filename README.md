@@ -8,10 +8,8 @@ Sample playbook:
 
   vars:
     build_params:
-      - src_image_path: /home/user/images/iosv.qcow2
-        image_name: iosv
-      - src_image_path: /home/user/images/iosvl2.qcow2
-        image_name: iosvl2
+      - src_image_path: /home/user/images/nxosv-final.7.0.3.I7.3.qcow2
+        image_name: nxos
 
   roles:
     - build-networking-image
