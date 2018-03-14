@@ -1,43 +1,5 @@
 ---
-- name: Check build_params variable is defined
-  fail:
-    msg: "Variable build_params needs to be defined"
-  when: build_params is undefined
-
-- name: Get image name
-  set_fact:
-    image_name: "{{ item.image_name }}"
-
-- name: Get source image path
-  set_fact:
-    src_image_path: "{{ item.src_image_path }}"
-
-- name: Create output directory
-  file:
-    path: "{{ output_directory }}"
-    state: directory
-
-- name: Copy source image onto output directory
-  copy:
-    src: "{{ src_image_path }}"
-    dest: "{{ output_directory }}/cloned_image"
-
-- name: Retrieve stats of image
-  stat:
-    path: "{{ output_directory }}/cloned_image"
-  register: st
-
-- name: Get sha1sum checksum of the image
-  set_fact:
-    sha1sum: "{{ st.stat.checksum }}"
-
-- name: Infer platform from sha1sum checksum
-  set_fact:
-    platform: "{{ checksum_to_platform_version[sha1sum]['platform'] }}"
-
-- name: Infer build version from sha1sum checksum
-  set_fact:
-    build_version: "{{ checksum_to_platform_version[sha1sum]['build_version'] }}"
+- import_tasks: clone_image.yml
 
 - name: Include platform variables
   include_vars:
@@ -66,9 +28,7 @@
   shell: killall qemu-system-x86_64
 
 - name: Rename built image to image_name
-  shell: "mv cloned_image {{ image_name }}.qcow2"
-  args:
-    chdir: "{{ output_directory }}"
+  shell: "mv {{ output_directory }}/cloned_image {{ output_directory }}/{{ image_name }}.qcow2"
 
 - name: Create QEMU script
   template:
