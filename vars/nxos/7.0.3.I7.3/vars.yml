@@ -16,11 +16,4 @@ expect_responses:
     - exit
   'telnet>': quit
 
-hostname: test
-domain_name: ansible.test
-admin_user: admin
-admin_user_password: omgsosecureadmin789
-regular_user: ansible
-regular_user_password: omgsosecureregular789
-
 qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 8192 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -device ahci,id=ahci0,bus=pci.0 -drive file=cloned_image,if=none,id=drive-sata-disk0,format=qcow2 -device ide-drive,bus=ahci0.0,drive=drive-sata-disk0,id=drive-sata-disk0,bootindex=0 -bios /usr/share/edk2/ovmf/OVMF_CODE.fd"

@@ -35,12 +35,4 @@ expect_responses:
     - exit
   'telnet>': quit
 
-hostname: test
-domain_name: ansible.test
-admin_user: admin
-admin_user_password: omgsosecureadmin789
-regular_user: ansible
-regular_user_password: omgsosecureregular789
-enable_password: omgsosecuresecret789
-
 qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 2048 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -drive file=cloned_image,if=ide"
