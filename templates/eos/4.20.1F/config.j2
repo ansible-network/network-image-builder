@@ -6,3 +6,8 @@ username {{ admin_user }} secret {{ admin_user_password }} privilege 15
 username {{ regular_user }} secret {{ regular_user_password }} privilege 1
 
 enable secret {{ enable_password }}
+
+event-handler dhcp-ma1-on-boot
+  trigger on-boot
+  action bash /mnt/flash/dhcp-ma1-on-boot.sh
+  delay 30
