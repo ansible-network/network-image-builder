@@ -7,6 +7,7 @@ admin_user: admin
 admin_user_password: omgsosecureadmin789
 regular_user: ansible
 regular_user_password: omgsosecureregular789
+enable_password: omgsosecuresecret789
 
 checksum_to_platform_version:
   1ee07ed01e672f5bf7efb46ce2e0f9f3a7658a94:
