@@ -14,3 +14,6 @@ Sample playbook:
   roles:
     - build-networking-image
 ```
+
+NOTE: Make sure you pass ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60 to the playbook invoking the role,
+otherwise the configure step may fail with a timeout.
