@@ -10,7 +10,7 @@ regular_user_password: omgsosecureregular789
 enable_password: omgsosecuresecret789
 
 checksum_to_platform_version:
-  1ee07ed01e672f5bf7efb46ce2e0f9f3a7658a94:
+  89e0fc9dd45f5682ed222f36f1ea952b049b1888:
     platform: nxos
     build_version: 7.0.3.I7.3
   de89b5ade2f86eeaf7211fa4bae7266eb4410dca:
