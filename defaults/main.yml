@@ -1,5 +1,5 @@
 ---
-output_directory: ./output
+output_directory: ./images
 
 hostname: test
 domain_name: ansible.test
