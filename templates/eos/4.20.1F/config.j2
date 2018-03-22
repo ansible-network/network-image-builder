@@ -7,6 +7,11 @@ username {{ regular_user }} secret {{ regular_user_password }} privilege 1
 
 enable secret {{ enable_password }}
 
+{% if add_vagrant_user is defined and add_vagrant
+username vagrant secret vagrant privilege
+user vagrant sshkey {{ vagrant_sshkey }}
+{% endif %}
+
 event-handler dhcp-ma1-on-boot
   trigger on-boot
   action bash /mnt/flash/dhcp-ma1-on-boot.sh

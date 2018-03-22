@@ -8,4 +8,10 @@ interface mgmt0
 username {{ admin_user }} password {{ admin_user_password }} role network-admin
 username {{ regular_user }} password {{ regular_user_password }}
 
+{% if add_vagrant_user is defined and add_vagrant_user %}
+username vagrant password vagrant role network-admin
+username vagrant sshkey {{ vagrant_sshkey }}
+username vagrant shell bash
+{% endif %}
+
 boot nxos bootflash:nxos.7.0.3.I7.3.bin
