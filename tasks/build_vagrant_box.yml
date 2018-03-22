@@ -1,0 +1,13 @@
+---
+- name: Include platform variables
+  include_vars:
+   dir: "{{ platform }}/{{ build_version }}"
+
+- name: Get box building script
+  get_url:
+    url: https://raw.githubusercontent.com/vagrant-libvirt/vagrant-libvirt/master/tools/create_box.sh
+    dest: "{{ output_directory }}/create_box.sh"
+    mode: 0777
+
+- name: Run box building script
+  shell: "bash {{ output_directory }}/create_box.sh {{output_directory}}/{{ platform }}.qcow2"
