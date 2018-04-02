@@ -40,7 +40,7 @@
     - name: Create temporary build directory
       tempfile:
         state: directory
-        suffix: bni
+        suffix: "-bni"
       register: out
     - name: Untar OVA file
       shell: "tar -xf {{ src_image_path }} -C {{ out.path }}"
