@@ -1,12 +1,4 @@
 ---
-- name: Get source image path
-  set_fact:
-    src_image_path: "{{ item.src_image_path }}"
-
-- name: Get image name
-  set_fact:
-    image_name: "{{ item.image_name }}"
-
 - name: Retrieve stats of image
   stat:
     path: "{{ src_image_path }}"

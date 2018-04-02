@@ -1,0 +1,10 @@
+---
+- name: Check prereqs
+  import_tasks: install_prereqs.yaml
+  when: install_prereqs | bool
+
+- name: Build image
+  import_tasks: build_image.yaml
+
+- import_tasks: build_wrapper_image.yaml
+  when: wrapper_linux_image is defined
