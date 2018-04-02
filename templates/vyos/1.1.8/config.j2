@@ -1,0 +1,6 @@
+set system host-name {{ hostname }}
+set system domain-name {{ domain_name }}
+
+set system login user {{ admin_user }} authentication plaintext-password {{ admin_user_password }}
+set system login user admin level admin
+set system login user {{ regular_user }} authentication plaintext-password {{ regular_user_password }}

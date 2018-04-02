@@ -1,0 +1,12 @@
+---
+- vyos_config:
+    src: "{{ platform }}/{{ build_version }}/config.j2"
+    save: yes
+  vars:
+    ansible_user: vyos
+    ansible_ssh_pass: vyos
+    ansible_port: 8022
+    ansible_network_os: vyos
+
+- pause:
+    minutes: 1

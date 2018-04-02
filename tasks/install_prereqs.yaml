@@ -1,0 +1,13 @@
+---
+- name: Gather facts
+  setup:
+
+- name: Install pre-required epackages
+  package:
+    name: "{{ item }}"
+    state: installed
+  become: yes
+  with_items:
+    - qemu-system-x86.x86_64
+    - qemu-img.x86_64
+    - libguestfs-tools

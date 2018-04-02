@@ -1,5 +1,5 @@
 ---
-- import_tasks: clone_image.yml
+- import_tasks: clone_image.yaml
 
 - name: Include platform variables
   include_vars:
@@ -10,19 +10,20 @@
   args:
     chdir: "{{ output_directory }}"
  
-- name: Bootstrap VM
-  expect:
-    command: telnet localhost 8888
-    responses: "{{ expect_responses }}"
-    timeout: 300
+- name: Bootstrap VM if necessary
+  include: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ platform }}/{{ build_version }}/bootstrap.yaml"
+      skip: True
 
 - name: Wait for VM SSH
   wait_for:
     port: 8022
     search_regex: SSH
 
-- name: Include platform config tasks
-  include: "{{ platform }}/configure.yml"
+- name: Configure VM
+  include: "{{ platform }}/{{ build_version }}/configure.yaml"
 
 - name: Kill QEMU
   shell: killall qemu-system-x86_64
@@ -46,5 +47,5 @@
     src: "{{ platform }}/{{ build_version }}/inventory.j2"
     dest: "{{ output_directory }}/inventories/{{ image_name }}"
 
-- import_tasks: build_wrapper_image.yml
+- import_tasks: build_wrapper_image.yaml
   when: wrapper_linux_image is defined and wrapper_linux_image

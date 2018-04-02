@@ -1,0 +1,13 @@
+---
+expect_responses:
+  '\(qemu\) ':
+    - "sendkey v-y-o-s-ret"
+    - "sendkey v-y-o-s-ret"
+    - "sendkey c-o-n-f-i-g-ret"
+    - "sendkey s-e-t-spc-s-e-r-v-i-c-e-spc-s-s-h-ret"
+    - "sendkey c-o-m-spc-backspace-m-i-t-ret"
+    - "sendkey s-a-v-e-ret"
+    - "sendkey e-x-i-t-ret"
+    - "\x1d"
+  'telnet>': quit
+qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 2048 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -drive file=cloned_image,if=ide"
