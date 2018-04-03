@@ -8,5 +8,8 @@
     ansible_port: 8022
     ansible_network_os: vyos
 
-- pause:
-    minutes: 1
+- name: Poweroff VM to sync config to disk, ignore errors as it is due to disconnect
+  vyos_command:
+    commands:
+      - poweroff now
+  ignore_errors: yes
