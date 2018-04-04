@@ -22,3 +22,7 @@ checksum_to_platform_version:
     platform: vyos
     build_version: 1.1.8
     src_image_format: ova
+  7cc247913018ea01d83746b5b13b1932a7bd9f01:
+    platform: vqfx
+    build_version: 17.4R1
+    src_image_format: vmdk
