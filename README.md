@@ -8,7 +8,7 @@ Sample playbook:
 
   tasks:
     - include_role:
-        name: build-networking-image
+        name: network-image-builder
       vars:
         src_image_path: "{{ item.src_image_path }}"
         image_name: "{{ item.image_name }}"
