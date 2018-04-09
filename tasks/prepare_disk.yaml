@@ -1,32 +1,32 @@
 ---
 - name: Create output directory
   file:
-    path: "{{ output_directory }}"
+    path: "{{ output_directory }}/{{ image_name }}"
     state: directory
 
 - name: Copy source QCOW2 image onto output directory
   copy:
     src: "{{ src_image_path }}"
-    dest: "{{ output_directory }}/cloned_image"
+    dest: "{{ output_directory }}/{{ image_name }}/cloned_image"
   when: src_image_format == 'qcow2'
 
 - block:
     - name: Convert vmdk file to qcow2
-      shell: "qemu-img convert -O qcow2 {{ src_image_path }} {{ output_directory }}/cloned_image"
+      shell: "qemu-img convert -O qcow2 {{ src_image_path }} {{ output_directory }}/{{ image_name }}/cloned_image"
   when: src_image_format == 'vmdk'
 
 - block:
     - name: Create temporary build directory
       tempfile:
         state: directory
-        suffix: "-bni"
+        suffix: "-nib"
       register: out
     - name: Untar OVA file
       shell: "tar -xf {{ src_image_path }} -C {{ out.path }}"
     - name: Remove all untarred files except the vmdk file
       shell: "find {{ out.path }} -type f ! -name '*.vmdk' -delete"
     - name: Convert vmdk file to qcow2
-      shell: "qemu-img convert -O qcow2 {{ out.path }}/* {{ output_directory }}/cloned_image"
+      shell: "qemu-img convert -O qcow2 {{ out.path }}/* {{ output_directory }}/{{ image_name }}/cloned_image"
     - name: Remove temporary directory
       file:
         path: "{{ out.path }}"

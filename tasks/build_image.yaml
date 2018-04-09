@@ -6,7 +6,7 @@
 - name: Launch VM with QEMU
   shell: "{{ qemu_command }} &"
   args:
-    chdir: "{{ output_directory }}"
+    chdir: "{{ output_directory }}/{{ image_name }}"
  
 - name: Bootstrap VM if necessary
   include: "{{ item }}"
@@ -27,23 +27,18 @@
   shell: killall qemu-system-x86_64
 
 - name: Rename built image to image_name
-  shell: "mv {{ output_directory }}/cloned_image {{ output_directory }}/{{ image_name }}.qcow2"
+  shell: "mv {{ output_directory }}/{{ image_name }}/cloned_image {{ output_directory }}/{{ image_name }}/{{ image_name }}.qcow2"
 
 - name: Create QEMU script
   template:
     src: "{{ platform }}/{{ build_version }}/qemu.j2"
-    dest: "{{ output_directory }}/run_{{ image_name }}.sh"
+    dest: "{{ output_directory }}/{{ image_name }}/run_{{ image_name }}.sh"
     mode: 0775
-
-- name: Create inventories folder
-  file:
-    path: "{{ output_directory }}/inventories"
-    state: directory
 
 - name: Create Ansible inventory
   template:
     src: "{{ platform }}/{{ build_version }}/inventory.j2"
-    dest: "{{ output_directory }}/inventories/{{ image_name }}"
+    dest: "{{ output_directory }}/{{ image_name }}/inventory"
 
 - import_tasks: build_wrapper_image.yaml
   when: wrapper_linux_image is defined and wrapper_linux_image
