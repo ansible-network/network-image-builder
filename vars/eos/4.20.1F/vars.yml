@@ -35,4 +35,4 @@ expect_responses:
     - exit
   'telnet>': quit
 
-qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 2048 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -drive file=cloned_image,if=ide"
+qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 2048 -smp 2 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -drive file=cloned_image,if=ide"
