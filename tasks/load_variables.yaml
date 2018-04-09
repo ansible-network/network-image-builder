@@ -1,0 +1,25 @@
+---
+- name: Retrieve stats of image
+  stat:
+    path: "{{ src_image_path }}"
+  register: st
+
+- name: Get sha1sum checksum of the image
+  set_fact:
+    sha1sum: "{{ st.stat.checksum }}"
+
+- name: Infer platform from sha1sum checksum
+  set_fact:
+    platform: "{{ checksum_to_platform_version[sha1sum]['platform'] }}"
+
+- name: Infer build version from sha1sum checksum
+  set_fact:
+    build_version: "{{ checksum_to_platform_version[sha1sum]['build_version'] }}"
+
+- name: Infer image type from sha1sum checksum
+  set_fact:
+    src_image_format: "{{ checksum_to_platform_version[sha1sum]['src_image_format'] | default('qcow2') }}"
+
+- name: Include platform variables
+  include_vars:
+   dir: "{{ platform }}/{{ build_version }}"

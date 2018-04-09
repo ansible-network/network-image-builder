@@ -1,0 +1,38 @@
+---
+- name: Create output directory
+  file:
+    path: "{{ output_directory }}"
+    state: directory
+
+- name: Copy source QCOW2 image onto output directory
+  copy:
+    src: "{{ src_image_path }}"
+    dest: "{{ output_directory }}/cloned_image"
+  when: src_image_format == 'qcow2'
+
+- block:
+    - name: Convert vmdk file to qcow2
+      shell: "qemu-img convert -O qcow2 {{ src_image_path }} {{ output_directory }}/cloned_image"
+  when: src_image_format == 'vmdk'
+
+- block:
+    - name: Create temporary build directory
+      tempfile:
+        state: directory
+        suffix: "-bni"
+      register: out
+    - name: Untar OVA file
+      shell: "tar -xf {{ src_image_path }} -C {{ out.path }}"
+    - name: Remove all untarred files except the vmdk file
+      shell: "find {{ out.path }} -type f ! -name '*.vmdk' -delete"
+    - name: Convert vmdk file to qcow2
+      shell: "qemu-img convert -O qcow2 {{ out.path }}/* {{ output_directory }}/cloned_image"
+    - name: Remove temporary directory
+      file:
+        path: "{{ out.path }}"
+        state: absent
+  when: src_image_format == 'ova'
+
+- block:
+    - fail: msg="ISO files support coming soon"
+  when: src_image_format == 'iso'

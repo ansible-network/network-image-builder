@@ -1,9 +1,7 @@
 ---
-- name: Include platform variables
-  include_vars:
-   dir: "{{ platform }}/{{ build_version }}"
+- import_tasks: load_variables.yaml
 
-- import_tasks: clone_image.yaml
+- import_tasks: prepare_disk.yaml
 
 - name: Launch VM with QEMU
   shell: "{{ qemu_command }} &"
