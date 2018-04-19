@@ -11,4 +11,6 @@
     - qemu-system-x86.x86_64
     - qemu-img.x86_64
     - libguestfs-tools
+    - libselinux-python
     - telnet
+    - pexpect
