@@ -1,0 +1,10 @@
+[junos]
+{{ hostname }}.{{ domain_name }}
+
+[junos:vars]
+ansible_network_os=junos
+ansible_connection=local
+ansible_host=localhost
+ansible_port=8022
+ansible_user={{ admin_user }}
+ansible_ssh_pass={{ admin_user_password }}

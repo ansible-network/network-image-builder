@@ -3,4 +3,4 @@
   expect:
     command: telnet localhost 8888
     responses: "{{ expect_responses }}"
-    timeout: 300
+    timeout: "{{ bootstrap_timeout }}"

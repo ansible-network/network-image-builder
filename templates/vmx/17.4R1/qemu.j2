@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/bin/qemu-system-x86_64 -nographic -m 6144 -smp 2 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -netdev user,id=net1 -device e1000,netdev=net1 -netdev user,id=net2 -device e1000,netdev=net2 -drive file={{ image_name }}.qcow2,if=ide &
