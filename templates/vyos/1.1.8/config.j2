@@ -1,6 +1,20 @@
 set system host-name {{ hostname }}
 set system domain-name {{ domain_name }}
 
+{% if enable_ssh_key_authentication %}
+{% for key in admin_user_ssh_keys %}
+set system login user {{ admin_user }} authentication public-keys key_{{ loop.index0 }} key {{ key }}
+set system login user {{ admin_user }} authentication public-keys key_{{ loop.index0 }} type ssh-rsa
+{% endfor %}
+{% for key in regular_user_ssh_keys %}
+set system login user {{ regular_user }} authentication public-keys key_{{ loop.index0 }} key {{ key }}
+set system login user {{ regular_user }} authentication public-keys key_{{ loop.index0 }} type ssh-rsa
+{% endfor %}
+set service ssh disable-password-authentication
+{% else %}
 set system login user {{ admin_user }} authentication plaintext-password {{ admin_user_password }}
-set system login user admin level admin
 set system login user {{ regular_user }} authentication plaintext-password {{ regular_user_password }}
+{% endif %}
+
+set system login user {{ admin_user }} level admin
+set system login user {{ regular_user }} level operator

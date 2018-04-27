@@ -12,6 +12,8 @@ regular_user: ansible
 regular_user_password: omgsosecureregular789
 enable_password: omgsosecuresecret789
 
+enable_ssh_key_authentication: True
+
 checksum_to_platform_version:
   89e0fc9dd45f5682ed222f36f1ea952b049b1888:
     platform: nxos
