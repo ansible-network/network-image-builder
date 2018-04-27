@@ -7,4 +7,4 @@
   import_tasks: build_image.yaml
 
 - import_tasks: build_wrapper_image.yaml
-  when: wrapper_linux_image is defined
+  when: wrap_images | bool

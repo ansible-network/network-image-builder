@@ -1,1 +1,3 @@
 ---
+- name: Create wrapper image
+  command: virt-builder {{ virt_builder_base_image }} --selinux-relabel --run-command 'mkdir /var/lib/network-image-builder' --copy-in {{ output_directory }}:/var/lib/network-image-builder --run {{ virt_builder_run_script_file }} --output {{ wrapper_image_name }}
