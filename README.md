@@ -1,6 +1,8 @@
 # network-image-builder
 
-This role allows an operator to customize vendor networking images.
+This role allows an operator to customize vendor networking images for use in CI.
+
+The method taken here should work with any network platform.
 
 ## Sample playbook
 
@@ -40,7 +42,7 @@ NOTE: To avoid the playbook timing out, ensure the following are set:
 * Platform specific configuration is loaded from `tasks/{platform}/{version}/configuration.yaml`
 
   * Which use `{platform}_config` to load in `templates/{platform}/{version}/config.j2`
-  * non-privileged port for SSH (rather than 22) so that we don't conflict with the host, and so that qemu doesn't need to run as root
+  * non-privileged port for SSH so that we don't conflict with the Linux host
 
 * Build outputs:
 
@@ -56,3 +58,11 @@ Connect
 ssh admin@localhost -p 8022 -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null
 ```
 
+## Adding a new platform
+
+* Download stock image
+* Add to `checksum_to_platform_version` map in `defaults/main.yml`
+* Create platform specific bootstrap & configuration
+  * `tasks/{platform}/{version}/bootstrap.yaml`
+  * `tasks/{platform}/{version}/configuration.yaml`
+  * `templates/{platform}/{version}/config.j2`
