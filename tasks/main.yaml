@@ -6,5 +6,6 @@
 - name: Build image
   import_tasks: build_image.yaml
 
-- import_tasks: build_wrapper_image.yaml
+- name: build wrapper image
+  import_tasks: build_wrapper_image.yaml
   when: wrap_images | bool

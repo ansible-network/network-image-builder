@@ -39,3 +39,7 @@
   template:
     src: "{{ platform }}/{{ build_version }}/inventory.j2"
     dest: "{{ output_directory }}/{{ image_name }}/inventory"
+
+- name: Inform users where the build artefacts have been placed
+  debug:
+    msg: "See created files in {{ output_directory }}/{{ image_name }}"

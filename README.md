@@ -6,6 +6,8 @@ The method taken here should work with any network platform.
 
 ## Sample playbook
 
+`build-images.yaml`
+
 ```yaml
 - hosts: localhost
   connection: local
@@ -15,13 +17,19 @@ The method taken here should work with any network platform.
     - include_role:
         name: network-image-builder
       vars:
-        src_image_path: "{{ item.src_image_path }}"
-        image_name: "{{ item.image_name }}"
+        src_image_path: "{{ image.src_image_path }}"
+        image_name: "{{ image.image_name }}"
+      loop_control:
+        loop_var: image
       with_items:
         - src_image_path: /home/ricky/images/nxosv-final.7.0.3.I7.3.qcow2
           image_name: nxos
         - src_image_path: /home/ricky/images/vEOS-lab-4.20.1F-combined.vmdk
           image_name: eos
+```
+
+```sh
+ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60  ansible-playbook build-images.yaml
 ```
 
 NOTE: To avoid the playbook timing out, ensure the following are set:
