@@ -1,7 +1,10 @@
+# network-image-builder
+
 This role allows an operator to customize vendor networking images.
 
-Sample playbook:
-```
+## Sample playbook
+
+```yaml
 - hosts: localhost
   connection: local
   gather_facts: no
@@ -19,5 +22,37 @@ Sample playbook:
           image_name: eos
 ```
 
-NOTE: Make sure you pass ANSIBLE_HOST_KEY_CHECKING=False and ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60 to the playbook invoking the role,
-otherwise the configure step may fail with a timeout.
+NOTE: To avoid the playbook timing out, ensure the following are set:
+
+* `ANSIBLE_HOST_KEY_CHECKING=False`
+* `ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60`
+
+## Build process
+
+* Stock image, defined by `src_image_path`
+* Image version is identified by `checksum_to_platform_version` map
+* Stock image is cloned into working directory `output_directory`
+* Bootstrap
+
+  * Stock image is booted via qemu
+  * Platform specific bootstrap is loaded from `tasks/{platform}/{version}/bootstrap.yaml`
+
+* Platform specific configuration is loaded from `tasks/{platform}/{version}/configuration.yaml`
+
+  * Which use `{platform}_config` to load in `templates/{platform}/{version}/config.j2`
+  * non-privileged port for SSH (rather than 22) so that we don't conflict with the host, and so that qemu doesn't need to run as root
+
+* Build outputs:
+
+  * `run_{platform}.sh`
+  * `inventories/{platform}`
+  * `{platform}.qcow2`
+
+Connect
+
+```sh
+./run_{platform}.sh
+# Once booted exit telnet
+ssh admin@localhost -p 8022 -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null
+```
+

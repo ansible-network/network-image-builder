@@ -7,7 +7,7 @@
   shell: "{{ qemu_command }} &"
   args:
     chdir: "{{ output_directory }}/{{ image_name }}"
- 
+
 - name: Bootstrap VM if necessary
   include: "{{ item }}"
   with_first_found:
