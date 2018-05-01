@@ -32,11 +32,6 @@ The method taken here should work with any network platform.
 ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60  ansible-playbook build-images.yaml
 ```
 
-NOTE: To avoid the playbook timing out, ensure the following are set:
-
-* `ANSIBLE_HOST_KEY_CHECKING=False`
-* `ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60`
-
 ## Build process
 
 * Stock image, defined by `src_image_path`
