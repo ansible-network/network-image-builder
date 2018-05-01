@@ -2,10 +2,10 @@
 - name: Gather facts
   setup:
 
-- name: Install pre-required epackages
+- name: Install pre-required packages
   package:
     name: "{{ item }}"
-    state: installed
+    state: present
   become: yes
   with_items:
     - qemu-system-x86.x86_64
