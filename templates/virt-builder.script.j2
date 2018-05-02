@@ -1,0 +1,34 @@
+#!/bin/bash
+
+dnf install -y {{ wrapper_image_packages }}
+useradd -m {{ wrapper_image_user }}
+mkdir /home/{{ wrapper_image_user }}/.ssh
+chown {{ wrapper_image_user }}:{{ wrapper_image_user }} /home/{{ wrapper_image_user }}/.ssh
+chmod 0700 /home/{{ wrapper_image_user }}/.ssh
+cat <<EOF > /home/{{ wrapper_image_user }}/.ssh/authorized_keys
+{{ wrapper_image_user_authorized_keys }}
+EOF
+chmod 0600 /home/{{ wrapper_image_user }}/.ssh/authorized_keys
+chown {{ wrapper_image_user }}:{{ wrapper_image_user }} /home/{{ wrapper_image_user }}/.ssh/authorized_keys
+echo "{{ wrapper_image_user }} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+sed -i "s/.*PubkeyAuthentication.*/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
+sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication no/g" /etc/ssh/sshd_config
+sed -i "s/.*PermitRootLogin.*/PermitRootLogin no/g" /etc/ssh/sshd_config
+
+sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
+
+cat <<EOF > /etc/systemd/system/{{ image_name }}-qemu.service
+[Unit]
+Description = Brings up the {{ image_name }} QEMU image
+
+[Service]
+Type=forking
+WorkingDirectory={{ wrapper_image_output_base_directory }}/{{ output_directory }}/{{ image_name }}
+ExecStart={{ wrapper_image_output_base_directory }}/{{ output_directory }}/{{ image_name }}/run_{{ image_name }}.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl enable {{ image_name }}-qemu.service

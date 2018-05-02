@@ -1,3 +1,13 @@
 ---
+- name: Create virt-builder script from template
+  template:
+    src: virt-builder.script.j2
+    dest: /tmp/virt-builder.script
+
 - name: Create wrapper image
-  command: virt-builder {{ virt_builder_base_image }} --selinux-relabel --run-command 'mkdir /var/lib/network-image-builder' --copy-in {{ output_directory }}:/var/lib/network-image-builder --run {{ virt_builder_run_script_file }} --output {{ wrapper_image_name }}
+  command: virt-builder {{ wrapper_base_image }} --selinux-relabel --run-command 'mkdir {{ wrapper_image_output_base_directory }}' --copy-in {{ output_directory }}:/var/lib/network-image-builder --run /tmp/virt-builder.script --output {{ wrapper_image_name }}
+
+- name: Delete virt-builder script from /tmp
+  file:
+    path: /tmp/virt-builder.script
+    state: absent
