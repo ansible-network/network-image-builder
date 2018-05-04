@@ -1,7 +1,14 @@
-This role allows an operator to customize vendor networking images.
+# network-image-builder
 
-Sample playbook:
-```
+This role allows an operator to customize vendor networking images for use in CI.
+
+The method taken here should work with any network platform.
+
+## Sample playbook
+
+`build-images.yaml`
+
+```yaml
 - hosts: localhost
   connection: local
   gather_facts: no
@@ -10,8 +17,10 @@ Sample playbook:
     - include_role:
         name: network-image-builder
       vars:
-        src_image_path: "{{ item.src_image_path }}"
-        image_name: "{{ item.image_name }}"
+        src_image_path: "{{ image.src_image_path }}"
+        image_name: "{{ image.image_name }}"
+      loop_control:
+        loop_var: image
       with_items:
         - src_image_path: /home/ricky/images/nxosv-final.7.0.3.I7.3.qcow2
           image_name: nxos
@@ -19,5 +28,44 @@ Sample playbook:
           image_name: eos
 ```
 
-NOTE: Make sure you pass ANSIBLE_HOST_KEY_CHECKING=False and ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60 to the playbook invoking the role,
-otherwise the configure step may fail with a timeout.
+```sh
+ANSIBLE_HOST_KEY_CHECKING=False ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=60  ansible-playbook build-images.yaml
+```
+
+## Build process
+
+* Stock image, defined by `src_image_path`
+* Image version is identified by `checksum_to_platform_version` map
+* Stock image is cloned into working directory `output_directory`
+* Bootstrap
+
+  * Stock image is booted via qemu
+  * Platform specific bootstrap is loaded from `tasks/{platform}/{version}/bootstrap.yaml`
+
+* Platform specific configuration is loaded from `tasks/{platform}/{version}/configuration.yaml`
+
+  * Which use `{platform}_config` to load in `templates/{platform}/{version}/config.j2`
+  * non-privileged port for SSH so that we don't conflict with the Linux host
+
+* Build outputs:
+
+  * `run_{platform}.sh`
+  * `inventories/{platform}`
+  * `{platform}.qcow2`
+
+Connect
+
+```sh
+./run_{platform}.sh
+# Once booted exit telnet
+ssh admin@localhost -p 8022 -o StrictHostkeyChecking=no -o UserKnownHostsFile=/dev/null
+```
+
+## Adding a new platform
+
+* Download stock image
+* Add to `checksum_to_platform_version` map in `defaults/main.yml`
+* Create platform specific bootstrap & configuration
+  * `tasks/{platform}/{version}/bootstrap.yaml`
+  * `tasks/{platform}/{version}/configuration.yaml`
+  * `templates/{platform}/{version}/config.j2`

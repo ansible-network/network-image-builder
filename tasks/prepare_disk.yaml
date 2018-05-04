@@ -23,6 +23,8 @@
       register: out
     - name: Untar OVA file
       shell: "tar -xf {{ src_image_path }} -C {{ out.path }}"
+      args:
+        warn: false # Avoid warning that we should use unarchive module
     - name: Remove all untarred files except the vmdk file
       shell: "find {{ out.path }} -type f ! -name '*.vmdk' -delete"
     - name: Convert vmdk file to qcow2
