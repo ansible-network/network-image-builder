@@ -15,10 +15,7 @@ bootstrap_timeout: 300
 hostname: test
 domain_name: ansible.test
 admin_user: admin
-admin_user_password: omgsosecureadmin789
 regular_user: ansible
-regular_user_password: omgsosecureregular789
-enable_password: omgsosecuresecret789
 
 # Allows the role to identify a platform from the SHA1 of a provided image
 # which allows us to load the platform & version specific bootstrap & configuration
