@@ -4,7 +4,7 @@ output_directory: output
 enable_ssh_key_authentication: False
 wrap_images: False
 wrapper_image_name: ansible-network.img
-wrapper_base_image: fedora-27
+wrapper_base_image: fedora-28
 wrapper_image_packages: cloud-init qemu-system-x86.x86_64
 wrapper_image_user: fedora
 wrapper_image_output_base_directory: /var/lib/network-image-builder
