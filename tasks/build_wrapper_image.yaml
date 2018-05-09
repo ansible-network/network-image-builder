@@ -6,6 +6,8 @@
 
 - name: Create wrapper image
   command: virt-builder {{ wrapper_base_image }} --selinux-relabel --run-command 'mkdir {{ wrapper_image_output_base_directory }}' --copy-in {{ output_directory }}:/var/lib/network-image-builder --run /tmp/virt-builder.script --output {{ wrapper_image_name }}
+  environment:
+    LIBGUESTFS_BACKEND: direct
 
 - name: Delete virt-builder script from /tmp
   file:
