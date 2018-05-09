@@ -8,10 +8,12 @@
     ansible_port: 8022
     ansible_network_os: vyos
 
-# 1.1.8 lldp fix https://phabricator.vyos.net/T456
-
-- name: Poweroff VM to sync config to disk, ignore errors as it is due to disconnect
+- name: Sync config to disk
   vyos_command:
     commands:
-      - poweroff now
-  ignore_errors: yes
+      - sync
+  vars:
+    ansible_user: vyos
+    ansible_ssh_pass: vyos
+    ansible_port: 8022
+    ansible_network_os: vyos
