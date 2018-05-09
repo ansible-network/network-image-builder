@@ -72,11 +72,9 @@ ssh admin@localhost -p 8022 -o StrictHostkeyChecking=no -o UserKnownHostsFile=/d
 
 ## Building wrapped images
 
-To build the wrapped Fedora image you will need to ensure your host has nested virtualisation enabled:
+To build the wrapped Fedora image, ensure your host has nested virtualisation enabled:
 
 ```sh
 cat /sys/module/kvm_intel/parameters/nested
 cat /sys/module/kvm_amd/parameters/nested
-
-
 ```
