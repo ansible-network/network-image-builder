@@ -1,0 +1,8 @@
+
+# python3 ./test/runner/ansible-test network-integration --python 3.6 --inventory /var/lib/network-image-builder/output/vyos/inventory --requirements vyos_command
+# python3 ./test/runner/ansible-test sanity --python 3.6
+
+
+# Check for nested virt on host if wrap_images, f29 `-cpu host`
+
+# Run separate zuul jobs for py2 & py3

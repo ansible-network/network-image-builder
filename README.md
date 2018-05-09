@@ -69,3 +69,12 @@ ssh admin@localhost -p 8022 -o StrictHostkeyChecking=no -o UserKnownHostsFile=/d
   * `tasks/{platform}/{version}/bootstrap.yaml`
   * `tasks/{platform}/{version}/configuration.yaml`
   * `templates/{platform}/{version}/config.j2`
+
+## Building wrapped images
+
+To build the wrapped Fedora image, ensure your host has nested virtualisation enabled:
+
+```sh
+cat /sys/module/kvm_intel/parameters/nested
+cat /sys/module/kvm_amd/parameters/nested
+```

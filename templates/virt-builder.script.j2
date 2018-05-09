@@ -17,6 +17,11 @@ sed -i "s/.*PermitRootLogin.*/PermitRootLogin no/g" /etc/ssh/sshd_config
 
 sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
 
+# Zuul's log_stream_port
+firewall-cmd --zone=public --permanent --add-port=19885/tcp
+
+date --utc "+%Y-%m-%d %H:%M" > /etc/network-image-builder-builddate.txt
+
 cat <<EOF > /etc/systemd/system/{{ image_name }}-qemu.service
 [Unit]
 Description = Brings up the {{ image_name }} QEMU image
