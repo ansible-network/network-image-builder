@@ -1,20 +1,7 @@
-# 19885 open for log stream
-
-# Clone Ansible?
-
 
 # python3 ./test/runner/ansible-test network-integration --python 3.6 --inventory /var/lib/network-image-builder/output/vyos/inventory --requirements vyos_command
 # python3 ./test/runner/ansible-test sanity --python 3.6
 
-
-# Open firewall port
-# Install OS Packages for Ansible only (cryptography, jinja2, junit-xml, paramiko, pyyaml
-#   test/runner/requirements/network-integration.txt
-#   test/runner/requirements/constraints.txt
-
-PyYAML python-paramiko python-jinja2 python-keyczar python-httplib2 python-setuptools python-six
-PyYAML python3-paramiko python3-jinja2 python3-keyczar python3-httplib2 python3-setuptools python3-six
-# what about py3 versions of PyYAML python3-keycza
 
 # Check for nested virt on host if wrap_images, f29 `-cpu host`
 
