@@ -1,27 +1,37 @@
 #!/bin/bash
 
+date --utc "+%Y-%m-%d %H:%M" > /etc/network-image-builder-builddate.txt
+
+# Packages
 dnf install -y {{ wrapper_image_packages }}
+
+# Users
 useradd -m {{ wrapper_image_user }}
 mkdir /home/{{ wrapper_image_user }}/.ssh
 chown {{ wrapper_image_user }}:{{ wrapper_image_user }} /home/{{ wrapper_image_user }}/.ssh
 chmod 0700 /home/{{ wrapper_image_user }}/.ssh
+
 cat <<EOF > /home/{{ wrapper_image_user }}/.ssh/authorized_keys
 {{ wrapper_image_user_authorized_keys }}
 EOF
+
 chmod 0600 /home/{{ wrapper_image_user }}/.ssh/authorized_keys
 chown {{ wrapper_image_user }}:{{ wrapper_image_user }} /home/{{ wrapper_image_user }}/.ssh/authorized_keys
 echo "{{ wrapper_image_user }} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# ssh
 sed -i "s/.*PubkeyAuthentication.*/PubkeyAuthentication yes/g" /etc/ssh/sshd_config
 sed -i "s/.*PasswordAuthentication.*/PasswordAuthentication no/g" /etc/ssh/sshd_config
 sed -i "s/.*PermitRootLogin.*/PermitRootLogin no/g" /etc/ssh/sshd_config
 
+# Firewall & Security
 sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
 
-# Zuul's log_stream_port
-firewall-cmd --zone=public --permanent --add-port=19885/tcp
+{% if disable_firewall %}
+systemctl disable firewalld.service
+{% endif %}
 
-date --utc "+%Y-%m-%d %H:%M" > /etc/network-image-builder-builddate.txt
-
+# VM Service
 cat <<EOF > /etc/systemd/system/{{ image_name }}-qemu.service
 [Unit]
 Description = Brings up the {{ image_name }} QEMU image
