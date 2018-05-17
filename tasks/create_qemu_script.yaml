@@ -1,0 +1,7 @@
+---
+
+- name: Create QEMU script
+  template:
+    src: "{{ platform }}/{{ build_version }}/qemu.j2"
+    dest: "{{ output_directory }}/{{ image_name }}/run_{{ image_name }}.sh"
+    mode: 0775

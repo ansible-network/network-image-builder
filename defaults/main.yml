@@ -3,6 +3,8 @@ install_prereqs: True
 output_directory: output
 enable_ssh_key_authentication: False
 disable_firewall: False
+create_qemu_script: False
+create_inventory: False
 wrap_images: False
 wrapper_image_name: ansible-network.img
 wrapper_base_image: fedora-27

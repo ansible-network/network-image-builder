@@ -1,0 +1,5 @@
+---
+- name: Create Ansible inventory
+  template:
+    src: "{{ platform }}/{{ build_version }}/inventory.j2"
+    dest: "{{ output_directory }}/{{ image_name }}/inventory"
