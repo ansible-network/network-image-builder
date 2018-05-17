@@ -6,6 +6,14 @@
 - name: Build image
   import_tasks: build_image.yaml
 
+- name: Create QEMU launch script
+  import_tasks: create_qemu_script.yaml
+  when: create_qemu_script | bool
+
+- name: Create Ansible inventory
+  import_tasks: create_inventory.yaml
+  when: create_inventory | bool
+
 - name: build wrapper image
   import_tasks: build_wrapper_image.yaml
   when: wrap_images | bool
