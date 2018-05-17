@@ -1,6 +1,6 @@
 #!/bin/bash
 
-date --utc "+%Y-%m-%d %H:%M" > /etc/network-image-builder-builddate.txt
+date --utc "+%Y-%m-%d %H:%M" > {{ wrapper_image_output_base_directory }}/builddate.txt
 
 # Packages
 dnf install -y {{ wrapper_image_packages }}
