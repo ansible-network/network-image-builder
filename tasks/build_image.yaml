@@ -30,6 +30,11 @@
     regular_user_password: "{{ lookup('password', '/dev/null length=12') }}"
   when: regular_user_password is not defined
 
+- name: Generate enable password if needed
+  set_fact:
+    enable_password: "{{ lookup('password', '/dev/null length=12') }}"
+  when: enable_password is not defined
+
 - name: Configure VM
   include: "{{ platform }}/{{ build_version }}/configure.yaml"
 

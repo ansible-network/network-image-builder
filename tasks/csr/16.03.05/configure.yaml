@@ -1,0 +1,9 @@
+---
+- ios_config:
+    src: "{{ platform }}/{{ build_version }}/config.j2"
+    save: yes
+  vars:
+    ansible_user: admin
+    ansible_ssh_pass: admin
+    ansible_port: 8022
+    ansible_network_os: ios
