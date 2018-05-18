@@ -46,3 +46,7 @@ checksum_to_platform_version:
     platform: vmx
     build_version: 17.4R1
     src_image_format: qcow2
+  d47c3af353c9dfa9d281ddf8989e0835716b6265:
+    platform: csr
+    build_version: 16.03.05
+    src_image_format: qcow2

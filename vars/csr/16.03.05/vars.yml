@@ -1,0 +1,22 @@
+---
+expect_responses:
+  '\(qemu\) ':
+    - "sendkey ret"
+    - "sendkey e-n-a-b-l-e-ret"
+    - "sendkey c-o-n-f-i-g-spc-t-ret"
+    - "sendkey u-s-e-r-n-a-m-e-spc-a-d-m-i-n-spc-p-r-i-v-i-l-e-g-e-spc-1-5-spc-p-a-s-s-w-o-r-d-spc-a-d-m-i-n-ret"
+    - "sendkey l-i-n-e-spc-v-t-y-spc-0-spc-4-ret"
+    - "sendkey t-r-a-n-s-p-o-r-t-spc-i-n-p-u-t-spc-s-spc-backspace-s-h-ret"
+    - "sendkey l-o-g-i-n-spc-l-o-c-a-l-ret"
+    - "sendkey e-x-i-t-ret"
+    - "sendkey h-o-s-t-n-a-m-e-spc-t-e-s-t-ret"
+    - "sendkey i-p-spc-d-o-m-a-i-n-minus-n-a-m-e-spc-t-e-s-t-ret"
+    - "sendkey i-n-t-spc-g-1-ret"
+    - "sendkey i-p-spc-a-d-spc-backspace-d-r-spc-d-h-c-p-ret"
+    - "sendkey n-o-spc-s-h-ret"
+    - "sendkey e-x-i-t-ret"
+    - "sendkey c-r-y-p-t-o-spc-k-e-y-spc-g-e-n-e-r-a-t-e-spc-r-s-a-spc-m-o-d-u-l-u-s-spc-2-0-4-8-ret"
+    - "sendkey e-x-i-t-ret"
+    - "\x1d"
+  'telnet>': quit
+qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 4096 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -drive file=cloned_image,if=ide"
