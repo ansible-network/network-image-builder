@@ -1,6 +1,6 @@
 ---
 - vyos_config:
-    src: "{{ platform }}/{{ build_version }}/config.j2"
+    src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
     save: yes
   vars:
     ansible_user: vyos
