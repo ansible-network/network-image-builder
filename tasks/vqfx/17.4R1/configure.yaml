@@ -1,6 +1,6 @@
 ---
 - junos_config:
-    src: "{{ platform }}/{{ build_version }}/config.j2"
+    src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
   vars:
     ansible_user: root
     ansible_ssh_pass: root123

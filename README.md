@@ -4,7 +4,7 @@ This role allows an operator to customize vendor networking images for use in CI
 
 The method taken here should work with any network platform.
 
-## Sample playbook
+## Sample playbook with templatized configuration
 
 `build-images.yaml`
 
@@ -19,6 +19,8 @@ The method taken here should work with any network platform.
       vars:
         src_image_path: "{{ image.src_image_path }}"
         image_name: "{{ image.image_name }}"
+        admin_user_password: myadminpass
+        regular_user_password: myregularpass
       loop_control:
         loop_var: image
       with_items:
@@ -26,6 +28,29 @@ The method taken here should work with any network platform.
           image_name: nxos
         - src_image_path: /home/ricky/images/vEOS-lab-4.20.1F-combined.vmdk
           image_name: eos
+```
+
+## Sample playbook with arbitrary configuration
+
+`build-images.yaml`
+
+```yaml
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - include_role:
+        name: network-image-builder
+      vars:
+        src_image_path: "{{ image.src_image_path }}"
+        image_name: "{{ image.image_name }}"
+        image_config_path: /my/path/to/my/image/config
+      loop_control:
+        loop_var: image
+      with_items:
+        - src_image_path: /home/ricky/images/nxosv-final.7.0.3.I7.3.qcow2
+          image_name: nxos
 ```
 
 ```sh
