@@ -18,3 +18,7 @@ set system login user {{ regular_user }} authentication plaintext-password {{ re
 
 set system login user {{ admin_user }} level admin
 set system login user {{ regular_user }} level operator
+
+delete interfaces ethernet eth0 hw-id
+delete interfaces ethernet eth1 hw-id
+delete interfaces ethernet eth2 hw-id
