@@ -5,7 +5,17 @@ ip domain-name {{ domain_name }}
 interface mgmt0
   ip address dhcp
 
-username {{ admin_user }} password {{ admin_user_password }} role network-admin
+{% if authentication_type == 'pubkey' %}
+{% for key in admin_user_ssh_keys %}
+username {{ admin_user }} sshkey ssh-rsa {{ key }}
+{% endfor %}
+username {{ admin_user }} role network-admin
+{% for key in regular_user_ssh_keys %}
+username {{ regular_user }} sshkey ssh-rsa {{ key }}
+{% endfor %}
+{% else %}
+username {{ admin_user }} sshkey {{ admin_user_password }} role network-admin
 username {{ regular_user }} password {{ regular_user_password }}
+{% endif %}
 
 boot nxos bootflash:nxos.7.0.3.I7.3.bin
