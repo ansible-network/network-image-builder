@@ -1,7 +1,7 @@
 set system host-name {{ hostname }}
 set system domain-name {{ domain_name }}
 
-{% if enable_ssh_key_authentication %}
+{% if authentication_type == 'pubkey' %}
 {% for key in admin_user_ssh_keys %}
 set system login user {{ admin_user }} authentication public-keys key_{{ loop.index0 }} key {{ key }}
 set system login user {{ admin_user }} authentication public-keys key_{{ loop.index0 }} type ssh-rsa
