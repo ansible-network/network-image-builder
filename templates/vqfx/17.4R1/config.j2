@@ -13,3 +13,4 @@ set system login user {{ regular_user }} class operator authentication ssh-rsa "
 set system login user {{ admin_user }} class super-user authentication encrypted-password {{ admin_user_password | password_hash('sha512') }}
 set system login user {{ regular_user }} class operator authentication encrypted-password {{ regular_user_password | password_hash('sha512') }}
 {% endif %}
+set interfaces em0 unit 0 family inet dhcp force-discover
