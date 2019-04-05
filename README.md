@@ -1,6 +1,7 @@
 # network-image-builder
 
-This role allows an operator to customize vendor networking images for use in CI.
+This role allows an operator to customize vendor networking images for use in
+CI.
 
 The method taken here should work with any network platform.
 
