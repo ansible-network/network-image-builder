@@ -1,10 +1,10 @@
 ---
 install_prereqs: False
 output_directory: output
-enable_ssh_key_authentication: False
+enable_ssh_key_authentication: True
 disable_firewall: False
-create_qemu_script: False
-create_inventory: False
+create_qemu_script: True
+create_inventory: True
 authentication_type: password
 wrap_images: False
 wrapper_image_name: ansible-network.img
