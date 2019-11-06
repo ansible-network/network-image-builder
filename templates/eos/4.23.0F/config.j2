@@ -1,0 +1,8 @@
+no username admin
+hostname {{ hostname }}
+ip domain-name {{ domain_name }}
+
+username {{ admin_user }} secret {{ admin_user_password }} privilege 15
+username {{ regular_user }} secret {{ regular_user_password }} privilege 1
+
+enable secret {{ enable_password }}
