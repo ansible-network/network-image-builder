@@ -39,6 +39,10 @@ checksum_to_platform_version:
     platform: vqfx
     build_version: 17.4R1
     src_image_format: qcow2
+  7a14e78431adec079ff72dff9572f76c13af2546:
+    platform: vqfx
+    build_version: 18.4R1
+    src_image_format: qcow2
   734f3400b6fb38ad0cea88eed2379729cf7b081c:
     platform: vsrx
     build_version: 18.1R1
