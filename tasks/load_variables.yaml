@@ -4,6 +4,9 @@
     path: "{{ src_image_path }}"
   register: st
 
+- assert:
+   that: "st.stat.exists == true"
+
 - name: Get sha1sum checksum of the image
   set_fact:
     sha1sum: "{{ st.stat.checksum }}"
