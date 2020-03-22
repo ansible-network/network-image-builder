@@ -1,10 +1,10 @@
 ---
 install_prereqs: False
 output_directory: output
-enable_ssh_key_authentication: False
+enable_ssh_key_authentication: True
 disable_firewall: False
-create_qemu_script: False
-create_inventory: False
+create_qemu_script: True
+create_inventory: True
 authentication_type: password
 wrap_images: False
 wrapper_image_name: ansible-network.img
@@ -42,6 +42,10 @@ checksum_to_platform_version:
   7cc247913018ea01d83746b5b13b1932a7bd9f01:
     platform: vqfx
     build_version: 17.4R1
+    src_image_format: qcow2
+  cce6abf16e8d4fdcc178b0f6c8e7350929b1001a:
+    platform: vqfx
+    build_version: 18.1R3
     src_image_format: qcow2
   734f3400b6fb38ad0cea88eed2379729cf7b081c:
     platform: vsrx
