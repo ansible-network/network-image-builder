@@ -55,3 +55,8 @@ checksum_to_platform_version:
     platform: csr
     build_version: 16.03.05
     src_image_format: qcow2
+  f325cb1cfe8c29b673e76cc148ac290613e7cfd4:
+    platform: nxos
+    build_version: 9.3.6
+    src_image_format: qcow2
+

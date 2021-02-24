@@ -1,0 +1,10 @@
+---
+- nxos_config:
+    src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
+    save_when: always
+  vars:
+    ansible_user: admin
+    ansible_ssh_pass: admin
+    ansible_port: 8022
+    ansible_network_os: nxos
+    ansible_host_key_checking: false
