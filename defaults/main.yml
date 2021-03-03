@@ -1,5 +1,5 @@
 ---
-install_prereqs: False
+install_prereqs: True
 output_directory: output
 enable_ssh_key_authentication: False
 disable_firewall: False
