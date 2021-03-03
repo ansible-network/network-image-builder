@@ -1,0 +1,26 @@
+---
+expect_responses:
+  'Press RETURN to get started.': ''
+  'Enter root-system username:': admin
+  'Enter secret:': admin
+  'Enter secret again:': admin
+  'Username:': admin
+  'Password:': admin
+  'ios[$#]$':
+    - term width 300
+    - term width 0
+    - run mkdir -p /disk0:/ztp/state
+    - run touch /disk0:/ztp/state/state_is_complete
+    - ztp terminate noprompt
+    - show version
+    - run cat /etc/build-info.txt
+    - conf t
+    - telnet vrf default ipv4 server max-servers 10
+  'config': interface MgmtEth0/RP0/CPU0/0
+  'config-if':
+     -  ipv4 address dhcp
+     - no shutdown
+     - tpa address-family ipv4 update-source MgmtEth0/RP0/CPU0/0
+  'telnet>': quit
+
+qemu_command: "qemu-system-x86_64 -nographic -m 8192 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -device ahci,id=ahci0,bus=pci.0 -drive file=cloned_image,if=none,id=drive-sata-disk0,format=qcow2 -device ide-drive,bus=ahci0.0,drive=drive-sata-disk0,id=drive-sata-disk0,bootindex=0 --accel hvf bios /usr/share/edk2/ovmf/OVMF_CODE.fd"

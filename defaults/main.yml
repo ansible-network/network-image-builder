@@ -24,6 +24,9 @@ regular_user: ansible
 # Allows the role to identify a platform from the SHA1 of a provided image
 # which allows us to load the platform & version specific bootstrap & configuration
 checksum_to_platform_version:
+  dac188e26387e78f1fdaa1d0206e9d9debb44216:
+    platform: iosxr
+    build_version: 7.0.2
   89e0fc9dd45f5682ed222f36f1ea952b049b1888:
     platform: nxos
     build_version: 7.0.3.I7.3
