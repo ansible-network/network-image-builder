@@ -1,0 +1,16 @@
+set system host-name {{ hostname }}
+set system domain-name {{ domain_name }}
+
+set system services ssh root-login deny
+{% if authentication_type == 'pubkey' %}
+{% for key in admin_user_ssh_keys %}
+set system login user {{ admin_user }} class super-user authentication ssh-rsa "ssh-rsa {{ key }}"
+{% endfor %}
+{% for key in regular_user_ssh_keys %}
+set system login user {{ regular_user }} class operator authentication ssh-rsa "ssh-rsa {{ key }}"
+{% endfor %}
+{% else %}
+set system login user {{ admin_user }} class super-user authentication encrypted-password {{ admin_user_password | password_hash('sha512') }}
+set system login user {{ regular_user }} class operator authentication encrypted-password {{ regular_user_password | password_hash('sha512') }}
+{% endif %}
+set interfaces em0 unit 0 family inet dhcp force-discover
