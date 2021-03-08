@@ -1,5 +1,5 @@
 ---
-- nxos_config:
+- iosxr_config:
     src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
     save_when: always
   vars:

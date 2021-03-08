@@ -7,9 +7,21 @@ expect_responses:
   'Enter secret again:': admin123
   'Username:': admin
   'Password:': admin123
-  'RP/0/RP0/CPU0:ios': 
+  'RP/0/RP0/CPU0:ios#':
+    - config
     - exit
     - "\x1d"
+  'RP/0/RP0/CPU0:ios\(config\)#': 
+     - interface MgmtEth0/RP0/CPU0/0
+     - router static address-family ipv4 unicast 0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+     - ssh server v2
+     - ssh server vrf default
+     - commit
+     - exit
+  'RP/0/RP0/CPU0:ios\(config-if\)#':
+     - ipv4 address dhcp
+     - no shutdown
+     - tpa address-family ipv4 update-source MgmtEth0/RP0/CPU0/0
   'telnet>': quit
 
 bootstrap_timeout: 600

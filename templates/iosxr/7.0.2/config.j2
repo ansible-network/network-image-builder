@@ -7,5 +7,3 @@ interface MgmtEth0/RP0/CPU0/0
 {% if authentication_type == 'pubkey' %}
 username admin password {{ admin_user_password }}
 {% endif %}
-
-tpa address-family ipv4 update-source MgmtEth0/RP0/CPU0/0
