@@ -1,7 +1,8 @@
 ---
 - iosxr_config:
-    src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
-    save_when: always
+    lines: 
+      - hostname {{ hostname }}
+      - domain name {{ domain_name }}
   vars:
     ansible_user: admin
     ansible_ssh_pass: admin
