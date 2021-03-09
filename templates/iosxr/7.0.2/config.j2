@@ -1,9 +1,0 @@
-hostname {{ hostname }}
-domain name {{ domain_name }}
-interface MgmtEth0/RP0/CPU0/0
-  ipv4 address dhcp
-  no shutdown
-
-{% if authentication_type == 'pubkey' %}
-username admin password {{ admin_user_password }}
-{% endif %}
