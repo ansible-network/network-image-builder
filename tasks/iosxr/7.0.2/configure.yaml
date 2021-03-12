@@ -1,12 +1,32 @@
 ---
+
 - iosxr_config:
     lines: 
       - hostname {{ hostname }}
       - domain name {{ domain_name }}
-      - username {{ regular_user }} password {{ regular_user_password }}
+      - username zuul  password {{ regular_user_password }}
+- copy:
+    content: "{{ ssh_key_public_content }}"
+    dest: "{{playbook_dir}}/id_rsa.pub"
+
+- shell: "cut -d' ' -f2 {{playbook_dir}}/id_rsa.pub | base64 -d >| id_rsa.pub.b64"
+
+- expect:
+    command: "sftp -P 8022 admin@localhost:/disk0:/"
+    responses:
+      'Are you sure you want to continue connecting': 'yes'
+      'Password:': admin123
+      'sftp>':
+         - put id_rsa.pub.b64
+         - exit
+    timeout: 100
+
+- iosxr_command:
+    commands: 
+      - crypto key import authentication rsa username zuul disk0:/id_rsa.pub.b64
   vars:
     ansible_user: admin
     ansible_ssh_pass: admin123
     ansible_port: 8022
     ansible_network_os: iosxr
-    ansible_host_key_checking: false
+    ansible_host_key_checking: false 
