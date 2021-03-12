@@ -1,0 +1,37 @@
+---
+ansible_user: admin
+ansible_ssh_pass: admin123
+ansible_port: 8022
+ansible_network_os: iosxr
+ansible_host_key_checking: false
+
+expect_responses:
+  'Press any key to continue': ''
+  'Press RETURN to get started.': ''
+  'Enter root-system username:': admin
+  'Enter secret:': admin123
+  'Enter secret again:': admin123
+  'Username:': admin
+  'Password:': admin123
+  'RP/0/RP0/CPU0:ios#':
+    - config
+    - exit
+    - "\x1d"
+  'RP/0/RP0/CPU0:ios\(config\)#': 
+     - interface MgmtEth0/RP0/CPU0/0
+     - router static address-family ipv4 unicast 0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+     - ssh server v2
+     - ssh server vrf default
+     - commit
+     - exit
+  'RP/0/RP0/CPU0:ios\(config-if\)#':
+     - ipv4 address dhcp
+     - no shutdown
+     - tpa address-family ipv4 update-source MgmtEth0/RP0/CPU0/0
+  'telnet>': quit
+
+bootstrap_timeout: 600
+
+qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 8192 -enable-kvm -serial telnet:localhost:8888,server,nowait  -serial telnet:localhost:8890,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -netdev user,id=net1 -device e1000,netdev=net1 -netdev user,id=net2 -device e1000,netdev=net2 -device ahci,id=ahci0,bus=pci.0 -drive file=cloned_image,if=ide,"
+
+ssh_key_public_content: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDI3XA0A84nUpCr9mfkrDjBdoNFtYMXqXMm2+WsGrOJUA2ESodUDDfTKmsA/xEygdCnj8JfSC3SYhc0uKHVe0RdG20mzntUqD50kB0STFeOHh3ee7FXmMxcLqLlyY9pJkn1V5WOi/D1Lbz8MwRUVBfqufryavwHla/9CPuAtPcut8mTUB0+Rapnv8W3n4dA6PqHNW1tylJUXj6P4trJPnFrdfMaIxc21tfd/QrMM4h90phW3zNILE0qF9UHpQxP0zew/LcD9rc+IhnbgC3DeCQDyiqJOsJRDo58RuwWmQHCF0SfiFQJ4qwrc6TFSJqSdi2aRY0S/vRMbXkD+6Hg2KWQyz6Z6EpY7RARletqJwNnzuuhXr2HSCj5QALe+0U/aUEX+dnydYBX6Nqa+0Rz/qV5aUk4YP1C2/dBCAdbYXPotBT6QBfekE428mJV8Mr7G/M7kwZ8v9WjytyJ8/FYNuekYDWonk6QTwDgQhMTiQI3Yxnu3ID63BL959lfUIv96bsifVI6/D36KTAdFi/dl7Omn5MZ9A5JXA7l+yEJKf4pcPTpQcPbjGSKyaPu0uffEjV9CTr3+VMwzq1uenxGDQ9cT/ud4pEEjwU/ihr6yttouTCvDu9ydrflHljUXxf+X00NW7HkrHnvS43AGnxQzi9g2lTOC9yDlDGbQjmnVjec7w== zuul-executor" 
