@@ -24,9 +24,3 @@
 - iosxr_command:
     commands: 
       - crypto key import authentication rsa username zuul disk0:/id_rsa.pub.b64
-  vars:
-    ansible_user: admin
-    ansible_ssh_pass: admin123
-    ansible_port: 8022
-    ansible_network_os: iosxr
-    ansible_host_key_checking: false 
