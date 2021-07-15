@@ -35,6 +35,22 @@
     enable_password: "{{ lookup('password', '/dev/null length=12') }}"
   when: enable_password is not defined
 
+
+- name: Zerotouch disable
+  include: "{{ platform }}/{{ build_version }}/disable_ztp.yaml"
+
+- name: Bootstrap VM if necessary again
+  include: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ platform }}/{{ build_version }}/bootstrap.yaml"
+      skip: True
+
+- name: Wait for VM SSH
+  wait_for:
+    port: 8022
+    search_regex: SSH
+
 - name: Configure VM
   include: "{{ platform }}/{{ build_version }}/configure.yaml"
 

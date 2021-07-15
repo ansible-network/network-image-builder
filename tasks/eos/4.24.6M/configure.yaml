@@ -1,0 +1,22 @@
+---
+- name: reset the connection
+  meta: reset_connection
+
+- name: Wait for image boot up
+  pause:
+    seconds: 100
+
+- arista.eos.eos_config:
+    src: "{{ image_config_path | default (platform + '/' + build_version + '/config.j2') }}"
+    save_when: always
+  become: true
+  vars:
+    ansible_user: admin
+    ansible_ssh_pass: admin
+    ansible_port: 8022
+    ansible_network_os: eos
+    ansible_host_key_checking: false
+    ansible_become: true
+    ansible_become_method: enable
+    ansible_become_pass: admin
+    ansible_connection: ansible.netcommon.network_cli

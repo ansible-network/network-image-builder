@@ -1,0 +1,18 @@
+---
+- arista.eos.eos_command:
+    commands: "zerotouch disable"
+  become: true
+  vars:
+    ansible_user: admin
+    ansible_password: admin
+    ansible_port: 8022
+    ansible_network_os: eos
+    ansible_host_key_checking: false
+    ansible_become: true
+    ansible_become_method: enable
+    ansible_become_pass: admin
+    ansible_connection: ansible.netcommon.network_cli
+
+- name: Wait for the network device to reload
+  wait_for_connection:
+    delay: 100
