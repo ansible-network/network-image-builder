@@ -5,6 +5,9 @@ ip name-server 1.1.1.1
 
 interface Management 1
 ip address dhcp
+ip address 10.0.2.15 255.255.255.0
+
+ip route 0.0.0.0 0.0.0.0 10.0.2.2
 
 username {{ admin_user }} secret {{ admin_user_password }} privilege 15
 username {{ regular_user }} secret {{ regular_user_password }} privilege 1
