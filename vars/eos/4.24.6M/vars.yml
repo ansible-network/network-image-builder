@@ -9,31 +9,10 @@ expect_responses:
     - "\x1d"
   'localhost\(config\)#':
     - username admin secret admin
-    - event-handler dhcp-ma1-on-boot
-    - exit
-  'localhost\(config-handler-dhcp-ma1-on-boot\)#':
-    - trigger on-boot
-    - action bash /mnt/flash/dhcp-ma1-on-boot.sh
-    - delay 30
     - exit
   '\[admin@localhost ~\]\$ ':
-    - sudo dhclient ma1
-    - |
-        cat << EOF > /mnt/flash/dhcp-ma1-on-boot.sh
-        #!/bin/bash
-
-        sudo dhclient ma1
-        ADDRESS=$(ifconfig ma1|grep inet|awk -F " " '{print $2}')
-        NETMASK=$(ifconfig ma1|grep inet|awk -F " " '{print $4}')
-        DEFAULT_GW=$(ip route|grep default|awk -F " " '{print $3}')
-        FastCli -p 15 -c $a"
-        configure terminal
-        interface Management1
-        ip address $(ifconfig ma1|grep inet|awk -F " " '{print $2}') $(ifconfig ma1|grep inet|awk -F " " '{print $4}')
-        ip route 0.0.0.0 0.0.0.0 $(ip route|grep default|awk -F " " '{print $3}')
-        "
-        EOF
-    - exit
+      - sudo dhclient ma1
+      - exit
   'telnet>': quit
 
 qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 2G -smp 2 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -netdev user,id=net1 -device e1000,netdev=net1 -netdev user,id=net2 -device e1000,netdev=net2 -drive file=cloned_image,if=ide"
