@@ -32,6 +32,7 @@ expect_responses:
         ip route 0.0.0.0 0.0.0.0 $DEFAULT_GW
         "
         EOF
+    - rm -f /persist/secure/ssh_*
     - exit
   'telnet>': quit
 
