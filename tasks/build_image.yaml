@@ -55,8 +55,8 @@
 - name: Configure VM
   include: "{{ platform }}/{{ build_version }}/configure.yaml"
 
-- name: Remove ssh key
-  include: "{{ platform }}/{{ build_version }}/remove_ssh_key.yaml"
+# - name: Remove ssh key
+#   include: "{{ platform }}/{{ build_version }}/remove_ssh_key.yaml"
 
 - name: Kill QEMU
   shell: killall qemu-system-x86_64
