@@ -38,7 +38,6 @@
 
 - name: Zerotouch disable
   include: "{{ platform }}/{{ build_version }}/disable_ztp.yaml"
-  when: image_name == "eos"
 
 - name: Bootstrap VM if necessary again
   include: "{{ item }}"
@@ -46,17 +45,18 @@
     - files:
         - "{{ platform }}/{{ build_version }}/bootstrap.yaml"
       skip: True
-  when: image_name == "eos"
   
 
 - name: Wait for VM SSH
   wait_for:
     port: 8022
     search_regex: SSH
-  when: image_name == "eos"
 
 - name: Configure VM
   include: "{{ platform }}/{{ build_version }}/configure.yaml"
+
+- name: Remove ssh key
+  include: "{{ platform }}/{{ build_version }}/remove_ssh_key.yaml"
 
 - name: Kill QEMU
   shell: killall qemu-system-x86_64

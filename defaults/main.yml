@@ -35,6 +35,10 @@ checksum_to_platform_version:
     platform: eos
     build_version: 4.23.0F
     src_image_format: vmdk
+  80f16ecb165b49529c90d2e8855a91d0e03e9429:
+    platform: eos
+    build_version: 4.22.11M
+    src_image_format: vmdk
   ad456b76a00ad0170470654ef20e37bde0d87278:
     platform: eos
     build_version: 4.24.6M
