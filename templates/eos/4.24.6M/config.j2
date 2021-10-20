@@ -13,6 +13,9 @@ interface Management 1
 ip address dhcp
 dhcp client accept default-route
 
+management ssh
+  hostkey server rsa
+
 ip routing
 
 copy running-config startup-config
