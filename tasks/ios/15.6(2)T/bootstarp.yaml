@@ -1,0 +1,11 @@
+---
+- name: Wait for image boot up
+  pause:
+    seconds: 180
+
+- name: Bootstrap VM
+  expect:
+    echo: yes
+    command: telnet localhost 8888
+    responses: "{{ expect_responses }}"
+    timeout: "{{ bootstrap_timeout }}"

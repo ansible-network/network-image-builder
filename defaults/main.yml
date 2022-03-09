@@ -55,3 +55,7 @@ checksum_to_platform_version:
     platform: csr
     build_version: 16.03.05
     src_image_format: qcow2
+  4f559579c8850d4b64c1bb7e5168a99a9491fa6c:
+    platform: ios
+    build_version: '15.6(2)T'
+    src_image_format: qcow2

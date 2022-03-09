@@ -1,0 +1,33 @@
+---
+ansible_user: ansible
+ansible_ssh_pass: ansible
+ansible_port: 8022
+ansible_network_os: ios
+ansible_host_key_checking: false
+
+expect_responses:
+  '\(qemu\) ':
+    - "sendkey ret"
+    - "sendkey e-n-a-b-l-e-ret"
+    - "sendkey c-o-n-f-i-g-spc-t-ret"
+    - "sendkey u-s-e-r-n-a-m-e-spc-a-d-m-i-n-spc-p-r-i-v-i-l-e-g-e-spc-1-5-spc-p-a-s-s-w-o-r-d-spc-a-d-m-i-n-ret"
+    - "sendkey l-i-n-e-spc-v-t-y-spc-0-spc-4-ret"
+    - "sendkey t-r-a-n-s-p-o-r-t-spc-i-n-p-u-t-spc-s-spc-backspace-s-h-ret"
+    - "sendkey l-o-g-i-n-spc-l-o-c-a-l-ret"
+    - "sendkey e-x-i-t-ret"
+    - "sendkey h-o-s-t-n-a-m-e-spc-t-e-s-t-ret"
+    - "sendkey i-p-spc-d-o-m-a-i-n-minus-n-a-m-e-spc-t-e-s-t-ret"
+    - "sendkey i-n-t-spc-g-1-ret"
+    - "sendkey i-p-spc-a-d-spc-backspace-d-r-spc-d-h-c-p-ret"
+    - "sendkey n-o-spc-s-h-ret"
+    - "sendkey e-x-i-t-ret"
+    - "sendkey c-r-y-p-t-o-spc-k-e-y-spc-g-e-n-e-r-a-t-e-spc-r-s-a-spc-m-o-d-u-l-u-s-spc-2-0-4-8-ret"
+    - "sendkey e-x-i-t-ret"
+    - "\x1d"
+  'telnet>': quit
+
+bootstrap_timeout: 600
+
+qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 4096 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -drive file=cloned_image,if=ide"
+
+ssh_key_public_content: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDI3XA0A84nUpCr9mfkrDjBdoNFtYMXqXMm2+WsGrOJUA2ESodUDDfTKmsA/xEygdCnj8JfSC3SYhc0uKHVe0RdG20mzntUqD50kB0STFeOHh3ee7FXmMxcLqLlyY9pJkn1V5WOi/D1Lbz8MwRUVBfqufryavwHla/9CPuAtPcut8mTUB0+Rapnv8W3n4dA6PqHNW1tylJUXj6P4trJPnFrdfMaIxc21tfd/QrMM4h90phW3zNILE0qF9UHpQxP0zew/LcD9rc+IhnbgC3DeCQDyiqJOsJRDo58RuwWmQHCF0SfiFQJ4qwrc6TFSJqSdi2aRY0S/vRMbXkD+6Hg2KWQyz6Z6EpY7RARletqJwNnzuuhXr2HSCj5QALe+0U/aUEX+dnydYBX6Nqa+0Rz/qV5aUk4YP1C2/dBCAdbYXPotBT6QBfekE428mJV8Mr7G/M7kwZ8v9WjytyJ8/FYNuekYDWonk6QTwDgQhMTiQI3Yxnu3ID63BL959lfUIv96bsifVI6/D36KTAdFi/dl7Omn5MZ9A5JXA7l+yEJKf4pcPTpQcPbjGSKyaPu0uffEjV9CTr3+VMwzq1uenxGDQ9cT/ud4pEEjwU/ihr6yttouTCvDu9ydrflHljUXxf+X00NW7HkrHnvS43AGnxQzi9g2lTOC9yDlDGbQjmnVjec7w== zuul-executor"
