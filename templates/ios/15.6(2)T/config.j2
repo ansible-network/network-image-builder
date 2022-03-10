@@ -4,8 +4,4 @@ ip domain-name {{ domain_name }}
 username {{ admin_user }} privilege 15 password {{ admin_user_password }}
 username {{ regular_user }} privilege 1 password {{ regular_user_password }}
 
-enable secret {{ enable_password }}
-
-service password-encryption
-
 ip ssh version 2

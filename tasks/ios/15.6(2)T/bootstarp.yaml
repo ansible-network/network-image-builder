@@ -5,7 +5,6 @@
 
 - name: Bootstrap VM
   expect:
-    echo: yes
     command: telnet localhost 8888
     responses: "{{ expect_responses }}"
     timeout: "{{ bootstrap_timeout }}"
