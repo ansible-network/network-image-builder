@@ -1,0 +1,22 @@
+---
+expect_responses:
+  'login: ': root
+  'root@:~ # ': cli
+  'root> ':
+    - request dhcp client renew all
+    - configure
+    - "\x1d"
+  'root# ':
+    - set system root-authentication plain-text-password Root123
+    - set system services ssh root-login allow
+    - set system services netconf ssh
+    - set interfaces em0 unit 0 family inet dhcp
+    - commit
+    - exit
+  'New password': root123
+  'Retype new password': root123
+  'telnet>': quit
+
+qemu_command: "/usr/bin/qemu-system-x86_64 -D /home/rothakur/logss.txt -nographic -m 12096 -enable-kvm -serial telnet:localhost:8888,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -drive file=cloned_image,if=ide -bios /usr/share/edk2/ovmf/OVMF_CODE.fd"
+
+bootstrap_timeout: 1000
