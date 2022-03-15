@@ -8,7 +8,7 @@ create_inventory: False
 authentication_type: password
 wrap_images: False
 wrapper_image_name: ansible-network.img
-wrapper_base_image: fedora-27
+wrapper_base_image: fedora-35
 wrapper_image_packages: qemu-system-x86.x86_64 telnet
 wrapper_image_user: fedora
 wrapper_image_output_base_directory: /var/lib/network-image-builder
@@ -46,6 +46,14 @@ checksum_to_platform_version:
   734f3400b6fb38ad0cea88eed2379729cf7b081c:
     platform: vsrx
     build_version: 18.1R1
+    src_image_format: qcow2
+  2b850dad4d860b298f9db03fce1c029a38ad65fc:
+    platform: vsrx
+    build_version: 18.4R1
+    src_image_format: qcow2
+  e47aef393a2aa983604a7f1e488d5620eaac32e6:
+    platform: vsrx
+    build_version: 21.4R1
     src_image_format: qcow2
   b19bb6de725485aa6cb9673a9d573ae773bdd5ef:
     platform: vmx
