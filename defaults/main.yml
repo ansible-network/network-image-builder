@@ -28,6 +28,10 @@ checksum_to_platform_version:
     platform: iosxr
     src_image_format: ova
     build_version: 7.0.2
+  b7e7f4b6c2a5a42c562acd9b1fb626d9ea1a2850:
+    platform: iosxr
+    src_image_format: ova
+    build_version: 7.4.2
   89e0fc9dd45f5682ed222f36f1ea952b049b1888:
     platform: nxos
     build_version: 7.0.3.I7.3
