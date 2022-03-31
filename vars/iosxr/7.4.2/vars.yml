@@ -1,0 +1,37 @@
+---
+ansible_user: admin
+ansible_ssh_pass: admin123
+ansible_port: 8022
+ansible_network_os: iosxr
+ansible_host_key_checking: false
+
+expect_responses:
+  'Press any key to continue': ''
+  'Press RETURN to get started.': ''
+  'Enter root-system username:': admin
+  'Enter secret:': admin123
+  'Enter secret again:': admin123
+  'Username:': admin
+  'Password:': admin123
+  'RP/0/RP0/CPU0:ios#':
+    - config
+    - exit
+    - "\x1d"
+  'RP/0/RP0/CPU0:ios\(config\)#': 
+     - interface MgmtEth0/RP0/CPU0/0
+     - router static address-family ipv4 unicast 0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+     - ssh server v2
+     - ssh server vrf default
+     - commit
+     - exit
+  'RP/0/RP0/CPU0:ios\(config-if\)#':
+     - ipv4 address dhcp
+     - no shutdown
+     - tpa address-family ipv4 update-source MgmtEth0/RP0/CPU0/0
+  'telnet>': quit
+
+bootstrap_timeout: 600
+
+qemu_command: "/usr/bin/qemu-system-x86_64 -nographic -m 8192 -enable-kvm -serial telnet:localhost:8888,server,nowait  -serial telnet:localhost:8890,server,nowait -monitor telnet:localhost:8889,server,nowait -netdev user,id=net0,hostfwd=tcp::8022-:22 -device e1000,netdev=net0 -netdev user,id=net1 -device e1000,netdev=net1 -netdev user,id=net2 -device e1000,netdev=net2 -device ahci,id=ahci0,bus=pci.0 -drive file=cloned_image,if=ide,"
+
+ssh_key_public_content: "AAAAB3NzaC1yc2EAAAADAQABAAABAQDgOp/WpwK0HBfgJoYDXo+yZbLqkNrbkbtk3p6MxJumQlXxXhKWY0uJXbrecjhJG6Ydv/6SzKQeoVWSPJUkZ0xD1l7KCPN+iNJyRQGwiyIi/Vd7JNt0pn+dblmPA5GzAwEMcT+49OlK0I1p1JwpSa0CFgNH8zSZOqCaH8yUiKtbc0UtCdQehSIcHvz573E2IbeDMG1omijf6fAT67tEAzEbsasCN/bSmXDraAQ+XIPPsFoifCQaSOL3SsyjG0awNfTotiBW68DqzR29KYwMQntM1ACVWPMda2rVTUFmV51ono/Ux2vRiV8zMCQAzZdy9gkF+3bDnK7VeY2rccp7EaVj root@managesf"

@@ -1,0 +1,26 @@
+---
+
+- iosxr_config:
+    lines: 
+      - hostname {{ hostname }}
+      - domain name {{ domain_name }}
+      - username zuul  password {{ regular_user_password }}
+- copy:
+    content: "{{ ssh_key_public_content }}"
+    dest: "{{playbook_dir}}/id_rsa.pub"
+
+- shell: "cut -d' ' -f2 {{playbook_dir}}/id_rsa.pub | base64 -d >| id_rsa.pub.b64"
+
+- expect:
+    command: "sftp -P 8022 admin@localhost:/disk0:/"
+    responses:
+      'Are you sure you want to continue connecting': 'yes'
+      'Password:': admin123
+      'sftp>':
+         - put id_rsa.pub.b64
+         - exit
+    timeout: 100
+
+- iosxr_command:
+    commands: 
+      - crypto key import authentication rsa username zuul disk0:/id_rsa.pub.b64
